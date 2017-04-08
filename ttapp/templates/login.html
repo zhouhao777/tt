@@ -1,0 +1,39 @@
+<html>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'ttapp/style.css' %}" />
+<script type="text/javascript" src="{% static 'ttapp/js/login.js' %}"></script>
+    <head>
+        <title>Login Page</title>
+        <meta charset="utf-8">
+    </head>
+	<body>
+		<form method="post">
+		{% csrf_token %}
+			<label for="username">用户名称：</label>
+			<input type="text" name="username" value="" id="username"><br/>
+			<label for="password">用户密码：</label>
+			<input type="password" name="password" value="" id="password"><br/>
+			<input type="submit" value="登录">
+		</form>
+		<form>
+			<input name="点击我" type="button" value="open" onclick="openPop()"/>
+			<input name="点击他" type="button" value="close" onclick="closePop()"/>
+		</form>
+		
+
+
+		<div class="test-pop" id="test-pop" style="position:absolute;left:465px;top:267px;z-index:600001;display:none;">
+		<form method="post">
+		{% csrf_token %}
+			<label for="username">用户名称：</label>
+			<input type="text" name="username" value="" id="username"><br/>
+			<label for="password">用户密码：</label>
+			<input type="password" name="password" value="" id="password"><br/>
+			<input type="submit" value="登录">
+		</form>
+
+	</body>
+</html>
+
+
+

@@ -5,6 +5,8 @@ from django.shortcuts import render,get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
+from django.utils import timezone
+from django.db.models import Sum
 
 from .models import Question,Choice
 
@@ -12,11 +14,23 @@ from .models import Question,Choice
 # Create your views here.
 class IndexView(generic.ListView):
     template_name = 'ttapp/index.html'
-    context_object_name = 'latest_question_list'
+    model = Question
+    # context_object_name = 'new_question_list'
 
-    def get_queryset(self):
-        """Return the last five published questions."""
-        return Question.objects.order_by('-pub_date')[:5]
+    # def get_queryset(self):
+    #     """Return the last five published questions."""
+    #     # hot_question_list = Choice.objects.order_by('pub_date')[:5]
+    #     return Question.objects.order_by('-pub_datepub_date')[:2]
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        context['latest_question_list'] = Question.objects.order_by('-pub_date')[:5]
+        #select sum(votes) as vote,question_id as qid from ttapp_choice group by question_id order by vote desc;
+        #在question上面弄个反向查询，然后再sum，再order_by，再再再取前5个
+        #Question.objects.annotate(sumvotes=Sum('choice__votes')).order_by('-sumvotes')
+        context['hot_question_list'] = Question.objects.annotate(sumvotes=Sum('choice__votes')).order_by('-sumvotes')[:5]
+        return context
+
+
 
 
 class DetailView(generic.DetailView):

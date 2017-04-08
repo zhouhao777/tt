@@ -1,8 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'ttapp/style.css' %}" />
 <h1>{{ question.question_text }}</h1>
+
+
+<div class="center">
 <ul>
 {% for choice in question.choice_set.all %}
     <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
 {% endfor %}
 </ul>
 
-<a href="{% url 'ttapp:detail' question.id %}">Vote again?</a>
+<a class="vote-again" href="{% url 'ttapp:detail' question.id %}">Vote again?</a>
+</div>
+{% endblock %}
