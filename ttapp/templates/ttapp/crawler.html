@@ -34,4 +34,11 @@
 		</div>
 	</div> 
 
+	<form action='{% url 'ttapp:query_crawler' query_time%}' method='get'>
+		{% csrf_token %}
+			<label for="username"> querytime：</label>
+			<input type="text" name="querytime" value="" id="querytime"><br/>
+			<input type="submit" value="submit">
+	</form>
+
 {% endblock %}

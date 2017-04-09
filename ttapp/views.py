@@ -31,9 +31,12 @@ class IndexView(generic.ListView):
         return context
 
 def crawler_list(request):
+
     result = Crawler.objects.values('code').annotate(dcount=Count('code')).order_by('-dcount')[:10]
     return render(request, 'ttapp/crawler.html', {'result':result})
-
+def query_crawler(request,query_time):
+    result = Crawler.objects.values('code').annotate(dcount=Count('code')).order_by('-dcount')[:10].filter('ctime'>'query_time')
+    return render(request, 'ttapp/crawler.html', {'result':result})
 
 class DetailView(generic.DetailView):
     model = Question
