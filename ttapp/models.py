@@ -26,3 +26,13 @@ class Choice(models.Model):
     
     def __str__(self):
     	return self.choice_text
+
+
+@python_2_unicode_compatible 
+class Crawler(models.Model):
+    topicID = models.IntegerField(default=0)
+    code = models.CharField(max_length=100)
+    ctime = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.code

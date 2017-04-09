@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span2">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>
+								股票编号
+							</th>
+							<th>
+								次數
+							</th>	
+						</tr>
+					</thead>
+					<tbody>
+					{% for item in result %}
+						<tr>
+							<td>
+								{{ item.code}}
+							</td>
+							<td>
+								{{ item.dcount}}
+							</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div> 
+
+{% endblock %}

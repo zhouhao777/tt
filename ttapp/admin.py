@@ -2,10 +2,11 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from .models import Question,Choice
+from .models import Question,Choice,Crawler
 
 #admin.site.register(Question)
 admin.site.register(Choice)
+admin.site.register(Crawler)
 # Register your models here.
 
 class ChoiceInline(admin.StackedInline):

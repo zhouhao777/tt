@@ -6,9 +6,9 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
-from django.db.models import Sum
+from django.db.models import Sum,Count
 
-from .models import Question,Choice
+from .models import Question,Choice,Crawler
 
 
 # Create your views here.
@@ -30,7 +30,9 @@ class IndexView(generic.ListView):
         context['hot_question_list'] = Question.objects.annotate(sumvotes=Sum('choice__votes')).order_by('-sumvotes')[:5]
         return context
 
-
+def crawler_list(request):
+    result = Crawler.objects.values('code').annotate(dcount=Count('code')).order_by('-dcount')[:10]
+    return render(request, 'ttapp/crawler.html', {'result':result})
 
 
 class DetailView(generic.DetailView):
