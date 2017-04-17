@@ -2,8 +2,9 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render,get_object_or_404
-from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.http import HttpResponseRedirect,HttpResponse,JsonResponse
+#from django.urls import reverse
+from django.core.urlresolvers import reverse
 from django.views import generic
 from django.utils import timezone
 from django.db.models import Sum,Count
@@ -31,12 +32,15 @@ class IndexView(generic.ListView):
         return context
 
 def crawler_list(request):
+    result = Crawler.objects.filter(ctime__gt='2017-03-28 02:00:46').values('code').annotate(dcount=Count('code')).order_by('-dcount')[:10]
+    return render(request, 'ttapp/crawler.html', {'result':result})
 
-    result = Crawler.objects.values('code').annotate(dcount=Count('code')).order_by('-dcount')[:10]
-    return render(request, 'ttapp/crawler.html', {'result':result})
-def query_crawler(request,query_time):
-    result = Crawler.objects.values('code').annotate(dcount=Count('code')).order_by('-dcount')[:10].filter('ctime'>'query_time')
-    return render(request, 'ttapp/crawler.html', {'result':result})
+def query_crawler(request):
+    query_time = request.GET['query_time']
+    # query_time = '2017-3-29 00:00:00'
+    query_result = Crawler.objects.filter(ctime__gt=query_time).values('code').annotate(dcount=Count('code')).order_by('-dcount')[:10]
+    # return JsonResponse({'query_result':list(query_result)})
+    return HttpResponse(query_result)
 
 class DetailView(generic.DetailView):
     model = Question

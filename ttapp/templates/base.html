@@ -10,8 +10,20 @@
     <title>MyDjango</title>
     <!-- <link rel="stylesheet" href="{% static 'style.css' %}"> -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-datetimepicker.min.css' %}">
     <!-- <link rel="stylesheet" href="{% static 'css/jumbotron-narrow.css' %}"> -->
-
+    <style>
+      html,body{ height: 100%;}
+      *{ box-sizing:border-box;}
+      .imgBox{ transform-style: preserve-3d; position: relative; width:100px; height: 100px; margin:200px auto 0;}
+      .imgBox img{width:100%; height: 100%; position: absolute; top:0; transition: transform 1s linear; cursor: pointer;
+        border-radius: 10px; box-shadow: 1px 1px 1px 1px #222;}
+      @keyframes xzmm{
+        from{ transform: perspective(400px) rotateY( 0deg) translateZ(200px);}
+        to{ transform: perspective(400px) rotateY( 360deg) translateZ(200px);}
+      }
+      .imgBox img.sel{ box-shadow: 0 0 3px 1px #00BCD4;}
+    </style>
 </head>
 
 <body>
@@ -66,6 +78,42 @@
               <h4>猜火车</h4>
               <p>躲在某一时间，想念某一段时光的掌纹。站在某一地点，想念一个站在来路，也站在一个去路的，让我牵挂的人</p>
             </div>
+<!--     <div id="imgBox" class="imgBox">
+      <img src="http://p0.so.qhimgs1.com/bdr/_240_/t0172db3b26c0d1d4ac.jpg" />
+      <img src="http://p0.so.qhimgs1.com/bdr/_240_/t01435a4eb0bd6efd60.jpg" />
+      <img src="http://p1.so.qhimgs1.com/bdr/_240_/t015b7b61b7d7b6957d.jpg" />
+      <img src="http://p5.so.qhimgs1.com/bdr/_240_/t017e0d36aa4fbb419b.jpg" />
+      <img src="http://p0.so.qhimgs1.com/bdr/_240_/t0187b703add3536f20.jpg" />
+      <img src="http://p2.so.qhimgs1.com/bdr/_240_/t0113dc91902322c3ae.jpg" />
+      <img src="http://p2.so.qhimgs1.com/bdr/_240_/t01b6aba2da3d0fb5de.jpg" />
+      <img src="http://p3.so.qhimgs1.com/bdr/_240_/t01b3b707f7b292d023.jpg" />
+      <img src="http://p4.so.qhimgs1.com/bdr/_240_/t01b56d441e69b85004.jpg" />
+    </div> -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.2.js"></script>
+    <script>
+      $(function(){
+        var $imgBox = $("#imgBox");
+        var imgCount = $imgBox.children().length;
+        var dur = 9;  // 旋转一圈所需时间，单位s
+        
+        $imgBox.children().each(function(i,dom){
+          var $this = $(this);
+          $this.css({
+            "z-index":  imgCount-i,
+            "animation":  "xzmm "+dur+"s linear "+i*(dur/imgCount)+"s infinite forwards"
+          }).on("mouseenter",function(){
+            $(this).parent().children().removeClass("sel").css({
+              "animation-play-state": "paused"
+            });
+            $(this).addClass("sel");
+          }).on("mouseleave",function(){
+            $(this).parent().children().removeClass("sel").css({
+              "animation-play-state": "running"
+            });
+          });
+        });
+      })
+    </script>
         
 
         {% block content %}{% endblock %}

@@ -34,11 +34,30 @@
 		</div>
 	</div> 
 
-	<form action='{% url 'ttapp:query_crawler' query_time%}' method='get'>
-		{% csrf_token %}
-			<label for="username"> querytime：</label>
-			<input type="text" name="querytime" value="" id="querytime"><br/>
-			<input type="submit" value="submit">
-	</form>
+<div id="query_data">
+    <form id = "query_content">
+    <div>time：<input type="text" id="query_time">
+    <button type="button" id="content_commit">submit</button></div>
+    <p>result:<span id='query_result'></span></p>
+    </form>
+</div>
+<script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $("#content_commit").click(function(){
+        	a = $("#query_time").val();
+        	$.get("/tt/query/",{'query_time':a},function(ret){
+          		$("#query_result").html(ret.encode('UTF-8'));
+          		// $.each(ret, function(i, item) {
+            // 		$("#query_result").append(
+            //         "<div>" + item.id + "</div>" + 
+            //         "<div>" + item.code    + "</div>" +
+            //         "<div>" + item.dcount + "</div><hr/>");
+        // });
+        	});
+    	});
+    });
+</script>
+
 
 {% endblock %}
